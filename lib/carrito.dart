@@ -30,7 +30,22 @@ class _CartPageState extends State<CartPage> {
                     itemBuilder: (context, index) {
                       final product = widget.items[index];
                       return ListTile(
-                        leading: Icon(product.icon),
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            product.image,
+                            width: 55,
+                            height: 55,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const SizedBox(
+                                width: 55,
+                                height: 55,
+                                child: Icon(Icons.image_not_supported_outlined),
+                              );
+                            },
+                          ),
+                        ),
                         title: Text(product.name),
                         subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
                         trailing: IconButton(
