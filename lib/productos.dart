@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'carrito.dart';
+import 'page_transitions.dart';
 
 // ============================================================
 // MODELO DE PRODUCTO
@@ -28,29 +29,25 @@ const products = [
   Product(
     name: 'Jarrón de Cerámica Blanco',
     price: 45.00,
-    image:
-        'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800',
+    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800',
     category: 'Salón',
   ),
   Product(
     name: 'Cojín Lino Nude',
     price: 28.50,
-    image:
-        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800',
+    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800',
     category: 'Salón',
   ),
   Product(
     name: 'Lámpara Roble Natural',
     price: 110.00,
-    image:
-        'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800',
+    image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800',
     category: 'Dormitorio',
   ),
   Product(
     name: 'Espejo Sol Mimbre',
     price: 74.90,
-    image:
-        'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800',
+    image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800',
     category: 'Dormitorio',
   ),
 ];
@@ -104,11 +101,7 @@ class _ProductsPageState extends State<ProductsPage> {
   void _openCart() {
     Navigator.of(
       context,
-    ).push(
-      MaterialPageRoute(
-        builder: (_) => CartPage(items: _cart),
-      ),
-    );
+    ).push(futuristicRoute(builder: (_) => CartPage(items: _cart)));
   }
 
   void _addToCart(Product product) {
@@ -149,12 +142,10 @@ class _ProductsPageState extends State<ProductsPage> {
 
     return products.where((product) {
       final matchesCategory =
-          _selectedCategory == 'Todo' ||
-          product.category == _selectedCategory;
+          _selectedCategory == 'Todo' || product.category == _selectedCategory;
 
       final matchesSearch =
-          search.isEmpty ||
-          product.name.toLowerCase().contains(search);
+          search.isEmpty || product.name.toLowerCase().contains(search);
 
       return matchesCategory && matchesSearch;
     }).toList();
@@ -185,7 +176,6 @@ class _ProductsPageState extends State<ProductsPage> {
             // ==================================================
             // BUSCADOR
             // ==================================================
-
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 22, 24, 0),
               child: Row(
@@ -202,10 +192,7 @@ class _ProductsPageState extends State<ProductsPage> {
                         onChanged: (_) {
                           setState(() {});
                         },
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: _text,
-                        ),
+                        style: const TextStyle(fontSize: 14, color: _text),
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           prefixIcon: Icon(
@@ -218,9 +205,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             color: Color(0xFF8F8F96),
                             fontSize: 14,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 14,
-                          ),
+                          contentPadding: EdgeInsets.symmetric(vertical: 14),
                         ),
                       ),
                     ),
@@ -252,7 +237,6 @@ class _ProductsPageState extends State<ProductsPage> {
             // ==================================================
             // CATEGORÍAS
             // ==================================================
-
             SizedBox(
               height: 88,
               child: ListView.separated(
@@ -262,12 +246,10 @@ class _ProductsPageState extends State<ProductsPage> {
                 ),
                 scrollDirection: Axis.horizontal,
                 itemCount: _categories.length,
-                separatorBuilder: (_, _) =>
-                    const SizedBox(width: 12),
+                separatorBuilder: (_, _) => const SizedBox(width: 12),
                 itemBuilder: (context, index) {
                   final category = _categories[index];
-                  final selected =
-                      category == _selectedCategory;
+                  final selected = category == _selectedCategory;
 
                   return GestureDetector(
                     onTap: () {
@@ -276,19 +258,12 @@ class _ProductsPageState extends State<ProductsPage> {
                       });
                     },
                     child: AnimatedContainer(
-                      duration: const Duration(
-                        milliseconds: 180,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25,
-                      ),
+                      duration: const Duration(milliseconds: 180),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: selected
-                            ? _primary
-                            : _chipBackground,
-                        borderRadius:
-                            BorderRadius.circular(24),
+                        color: selected ? _primary : _chipBackground,
+                        borderRadius: BorderRadius.circular(24),
                       ),
                       child: Text(
                         category,
@@ -311,29 +286,18 @@ class _ProductsPageState extends State<ProductsPage> {
             // ==================================================
             // PRODUCTOS
             // ==================================================
-
             Expanded(
               child: _filteredProducts.isEmpty
                   ? const Center(
                       child: Text(
                         'No encontramos productos',
-                        style: TextStyle(
-                          color: _mutedText,
-                        ),
+                        style: TextStyle(color: _mutedText),
                       ),
                     )
                   : GridView.builder(
-                      padding:
-                          const EdgeInsets.fromLTRB(
-                            24,
-                            0,
-                            24,
-                            24,
-                          ),
-                      physics:
-                          const BouncingScrollPhysics(),
-                      itemCount:
-                          _filteredProducts.length,
+                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: _filteredProducts.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -342,9 +306,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             childAspectRatio: 0.68,
                           ),
                       itemBuilder: (context, index) {
-                        return _buildProductCard(
-                          _filteredProducts[index],
-                        );
+                        return _buildProductCard(_filteredProducts[index]);
                       },
                     ),
             ),
@@ -355,7 +317,6 @@ class _ProductsPageState extends State<ProductsPage> {
       // ========================================================
       // NAVEGACIÓN INFERIOR
       // ========================================================
-
       bottomNavigationBar: _buildBottomNavigation(),
     );
   }
@@ -377,7 +338,6 @@ class _ProductsPageState extends State<ProductsPage> {
           // ----------------------------------------------------
           // IMAGEN
           // ----------------------------------------------------
-
           Expanded(
             child: Stack(
               children: [
@@ -388,11 +348,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       product.image,
                       fit: BoxFit.cover,
 
-                      loadingBuilder: (
-                        context,
-                        child,
-                        loadingProgress,
-                      ) {
+                      loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) {
                           return child;
                         }
@@ -400,27 +356,24 @@ class _ProductsPageState extends State<ProductsPage> {
                         return Container(
                           color: _chipBackground,
                           alignment: Alignment.center,
-                          child:
-                              const CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: _primary,
-                              ),
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: _primary,
+                          ),
                         );
                       },
 
-                      errorBuilder:
-                          (context, error, stackTrace) {
-                            return Container(
-                              color: _chipBackground,
-                              alignment:
-                                  Alignment.center,
-                              child: const Icon(
-                                Icons.image_outlined,
-                                size: 40,
-                                color: _mutedText,
-                              ),
-                            );
-                          },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: _chipBackground,
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.image_outlined,
+                            size: 40,
+                            color: _mutedText,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -428,7 +381,6 @@ class _ProductsPageState extends State<ProductsPage> {
                 // ----------------------------------------------
                 // FAVORITO
                 // ----------------------------------------------
-
                 Positioned(
                   top: 9,
                   right: 9,
@@ -440,8 +392,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       width: 35,
                       height: 35,
                       decoration: BoxDecoration(
-                        color: Colors.white
-                            .withValues(alpha: 0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -449,9 +400,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             ? Icons.favorite_rounded
                             : Icons.favorite_border_rounded,
                         size: 19,
-                        color: favorite
-                            ? _primary
-                            : const Color(0xFF8B9295),
+                        color: favorite ? _primary : const Color(0xFF8B9295),
                       ),
                     ),
                   ),
@@ -465,7 +414,6 @@ class _ProductsPageState extends State<ProductsPage> {
           // ----------------------------------------------------
           // NOMBRE
           // ----------------------------------------------------
-
           Text(
             product.name,
             maxLines: 1,
@@ -482,7 +430,6 @@ class _ProductsPageState extends State<ProductsPage> {
           // ----------------------------------------------------
           // PRECIO
           // ----------------------------------------------------
-
           Text(
             '${product.price.toStringAsFixed(2)} €',
             style: const TextStyle(
@@ -504,20 +451,14 @@ class _ProductsPageState extends State<ProductsPage> {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(
-          top: BorderSide(
-            color: Color(0xFFF1F1F1),
-            width: 1,
-          ),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFFF1F1F1), width: 1)),
       ),
       child: SafeArea(
         top: false,
         child: SizedBox(
           height: 68,
           child: Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavigationItem(
                 index: 0,
@@ -563,7 +504,8 @@ class _ProductsPageState extends State<ProductsPage> {
 
     return Expanded(
       child: InkWell(
-        onTap: onTap ??
+        onTap:
+            onTap ??
             () {
               setState(() {
                 _selectedNavigation = index;
@@ -578,9 +520,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 Icon(
                   icon,
                   size: 24,
-                  color: selected
-                      ? _primary
-                      : const Color(0xFF9AA0A3),
+                  color: selected ? _primary : const Color(0xFF9AA0A3),
                 ),
 
                 // BADGE DEL CARRITO
@@ -589,24 +529,18 @@ class _ProductsPageState extends State<ProductsPage> {
                     right: -8,
                     top: -7,
                     child: Container(
-                      constraints:
-                          const BoxConstraints(
-                            minWidth: 17,
-                            minHeight: 17,
-                          ),
-                      padding:
-                          const EdgeInsets.symmetric(
-                            horizontal: 4,
-                          ),
+                      constraints: const BoxConstraints(
+                        minWidth: 17,
+                        minHeight: 17,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
                         color: _primary,
                         shape: BoxShape.circle,
                       ),
                       child: Text(
-                        badge > 9
-                            ? '9+'
-                            : badge.toString(),
+                        badge > 9 ? '9+' : badge.toString(),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 9,
@@ -624,12 +558,8 @@ class _ProductsPageState extends State<ProductsPage> {
               label,
               style: TextStyle(
                 fontSize: 10,
-                fontWeight: selected
-                    ? FontWeight.w600
-                    : FontWeight.w400,
-                color: selected
-                    ? _primary
-                    : const Color(0xFF9AA0A3),
+                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                color: selected ? _primary : const Color(0xFF9AA0A3),
               ),
             ),
           ],

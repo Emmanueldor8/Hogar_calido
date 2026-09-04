@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'productos.dart';
+import 'page_transitions.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -88,28 +89,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     if (!_formKey.currentState!.validate()) return;
 
     // Transición fluida con desvanecimiento hacia la siguiente pantalla
-    Navigator.of(context).pushReplacement(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const ProductsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: SlideTransition(
-              position:
-                  Tween<Offset>(
-                    begin: const Offset(0.0, 0.05),
-                    end: Offset.zero,
-                  ).animate(
-                    CurvedAnimation(parent: animation, curve: Curves.easeOut),
-                  ),
-              child: child,
-            ),
-          );
-        },
-        transitionDuration: const Duration(milliseconds: 400),
-      ),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(futuristicRoute(builder: (_) => const ProductsPage()));
   }
 
   @override

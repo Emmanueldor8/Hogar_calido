@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'productos.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({
-    required this.items,
-    super.key,
-  });
+  const CartPage({required this.items, super.key});
 
   final List<Product> items;
 
@@ -23,17 +20,14 @@ class _CartPageState extends State<CartPage>
   late Animation<Offset> _contentSlideAnimation;
   late Animation<double> _imageScaleAnimation;
 
-  static const Color _brown = Color(0xFF62443A);
+  static const Color _brown = Color(0xFF5E4139);
   static const Color _lightBrown = Color(0xFFF4E8D5);
   static const Color _gold = Color(0xFFC47A22);
   static const Color _text = Color(0xFF55413A);
   static const Color _gray = Color(0xFF81756E);
 
   double get _total {
-    return widget.items.fold(
-      0,
-      (sum, item) => sum + item.price,
-    );
+    return widget.items.fold(0, (sum, item) => sum + item.price);
   }
 
   @override
@@ -50,45 +44,26 @@ class _CartPageState extends State<CartPage>
       curve: Curves.easeOut,
     );
 
-    _imageSlideAnimation = Tween<Offset>(
-      begin: const Offset(0, -0.08),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(
-          0.0,
-          0.65,
-          curve: Curves.easeOutCubic,
-        ),
-      ),
-    );
+    _imageSlideAnimation =
+        Tween<Offset>(begin: const Offset(0, -0.08), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.0, 0.65, curve: Curves.easeOutCubic),
+          ),
+        );
 
-    _contentSlideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.15),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(
-          0.25,
-          1.0,
-          curve: Curves.easeOutCubic,
-        ),
-      ),
-    );
+    _contentSlideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.15), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.25, 1.0, curve: Curves.easeOutCubic),
+          ),
+        );
 
-    _imageScaleAnimation = Tween<double>(
-      begin: 0.94,
-      end: 1.0,
-    ).animate(
+    _imageScaleAnimation = Tween<double>(begin: 0.94, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: const Interval(
-          0.0,
-          0.7,
-          curve: Curves.easeOutBack,
-        ),
+        curve: const Interval(0.0, 0.7, curve: Curves.easeOutBack),
       ),
     );
 
@@ -110,10 +85,7 @@ class _CartPageState extends State<CartPage>
         SnackBar(
           content: const Row(
             children: [
-              Icon(
-                Icons.check_circle_outline,
-                color: Colors.white,
-              ),
+              Icon(Icons.check_circle_outline, color: Colors.white),
               SizedBox(width: 10),
               Text('Producto añadido al carrito'),
             ],
@@ -139,9 +111,7 @@ class _CartPageState extends State<CartPage>
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: Text(
-            '$productName eliminado del carrito',
-          ),
+          content: Text('$productName eliminado del carrito'),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
           backgroundColor: _brown,
@@ -168,9 +138,7 @@ class _CartPageState extends State<CartPage>
           child: CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
-              SliverToBoxAdapter(
-                child: _buildHeader(),
-              ),
+              SliverToBoxAdapter(child: _buildHeader()),
 
               // IMAGEN CON ANIMACIÓN
               SliverToBoxAdapter(
@@ -188,15 +156,9 @@ class _CartPageState extends State<CartPage>
                 child: SlideTransition(
                   position: _contentSlideAnimation,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      24,
-                      25,
-                      24,
-                      30,
-                    ),
+                    padding: const EdgeInsets.fromLTRB(24, 25, 24, 30),
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // TÍTULO
                         Text(
@@ -214,8 +176,7 @@ class _CartPageState extends State<CartPage>
 
                         // PRECIO + ESTRELLAS EN LA MISMA FILA
                         Row(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               '\$${product.price.toStringAsFixed(2)}',
@@ -236,47 +197,27 @@ class _CartPageState extends State<CartPage>
 
                             const SizedBox(width: 14),
 
-                            const Row(
-                              children: [
-                                Icon(
-                                  Icons.star_rounded,
-                                  size: 17,
-                                  color: Color(0xFFE2B323),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  size: 17,
-                                  color: Color(0xFFE2B323),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  size: 17,
-                                  color: Color(0xFFE2B323),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  size: 17,
-                                  color: Color(0xFFE2B323),
-                                ),
-                                Icon(
-                                  Icons.star_rounded,
-                                  size: 17,
-                                  color: Color(0xFFE2B323),
-                                ),
-                              ],
-                            ),
-
-                            const SizedBox(width: 6),
-
-                            const Flexible(
-                              child: Text(
-                                '4.9 (12 reseñas)',
-                                overflow:
-                                    TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: _gray,
-                                ),
+                            const Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.star_rounded,
+                                    size: 17,
+                                    color: Color(0xFFE2B323),
+                                  ),
+                                  SizedBox(width: 6),
+                                  Flexible(
+                                    child: Text(
+                                      '4.9 (12 reseñas)',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: _gray,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -316,27 +257,19 @@ class _CartPageState extends State<CartPage>
 
                         const SizedBox(height: 22),
 
-                        _buildInfoRow(
-                          'Categoría',
-                          product.category,
-                        ),
+                        _buildInfoRow('Categoría', product.category),
 
                         _buildInfoRow(
                           'Material',
                           _getMaterial(product.category),
                         ),
 
-                        _buildInfoRow(
-                          'Acabado',
-                          'Natural y artesanal',
-                        ),
+                        _buildInfoRow('Acabado', 'Natural y artesanal'),
 
                         const SizedBox(height: 22),
 
                         // BOTÓN AÑADIR AL CARRITO
-                        _AnimatedCartButton(
-                          onPressed: _addToCart,
-                        ),
+                        _AnimatedCartButton(onPressed: _addToCart),
 
                         // OTROS PRODUCTOS
                         const SizedBox(height: 20),
@@ -365,10 +298,7 @@ class _CartPageState extends State<CartPage>
             onPressed: () {
               Navigator.maybePop(context);
             },
-            icon: const Icon(
-              Icons.arrow_back_ios_new_rounded,
-              size: 19,
-            ),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 19),
             color: const Color(0xFF3E3733),
           ),
 
@@ -402,20 +332,12 @@ class _CartPageState extends State<CartPage>
                   right: -8,
                   top: -8,
                   child: AnimatedSwitcher(
-                    duration: const Duration(
-                      milliseconds: 250,
-                    ),
-                    transitionBuilder:
-                        (child, animation) {
-                      return ScaleTransition(
-                        scale: animation,
-                        child: child,
-                      );
+                    duration: const Duration(milliseconds: 250),
+                    transitionBuilder: (child, animation) {
+                      return ScaleTransition(scale: animation, child: child);
                     },
                     child: Container(
-                      key: ValueKey(
-                        widget.items.length,
-                      ),
+                      key: ValueKey(widget.items.length),
                       width: 18,
                       height: 18,
                       alignment: Alignment.center,
@@ -459,11 +381,7 @@ class _CartPageState extends State<CartPage>
           Image.network(
             product.image,
             fit: BoxFit.cover,
-            loadingBuilder: (
-              context,
-              child,
-              loadingProgress,
-            ) {
+            loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) {
                 return child;
               }
@@ -479,11 +397,7 @@ class _CartPageState extends State<CartPage>
                 ),
               );
             },
-            errorBuilder: (
-              context,
-              error,
-              stackTrace,
-            ) {
+            errorBuilder: (context, error, stackTrace) {
               return Container(
                 color: _lightBrown,
                 child: const Center(
@@ -502,39 +416,23 @@ class _CartPageState extends State<CartPage>
             right: 15,
             bottom: 15,
             child: TweenAnimationBuilder<double>(
-              tween: Tween(
-                begin: 0,
-                end: 1,
-              ),
-              duration: const Duration(
-                milliseconds: 800,
-              ),
+              tween: Tween(begin: 0, end: 1),
+              duration: const Duration(milliseconds: 800),
               curve: Curves.easeOutBack,
-              builder: (
-                context,
-                value,
-                child,
-              ) {
+              builder: (context, value, child) {
                 return Transform.scale(
                   scale: value,
-                  child: Opacity(
-                    opacity: value,
-                    child: child,
-                  ),
+                  child: Opacity(opacity: value, child: child),
                 );
               },
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 12,
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(
-                    alpha: 0.90,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(20),
+                  color: Colors.white.withValues(alpha: 0.90),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Text(
                   'HECHO A MANO',
@@ -557,24 +455,17 @@ class _CartPageState extends State<CartPage>
   // INFORMACIÓN
   // =========================================================
 
-  Widget _buildInfoRow(
-    String label,
-    String value,
-  ) {
+  Widget _buildInfoRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 95,
             child: Text(
               '$label:',
-              style: const TextStyle(
-                fontSize: 12,
-                color: Color(0xFF7D736C),
-              ),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF7D736C)),
             ),
           ),
 
@@ -635,68 +526,42 @@ class _CartPageState extends State<CartPage>
   // OTROS PRODUCTOS
   // =========================================================
 
-  Widget _buildOtherProduct(
-    Product product,
-    int index,
-  ) {
+  Widget _buildOtherProduct(Product product, int index) {
     return TweenAnimationBuilder<double>(
-      tween: Tween(
-        begin: 0,
-        end: 1,
-      ),
-      duration: Duration(
-        milliseconds: 450 + (index * 120),
-      ),
+      tween: Tween(begin: 0, end: 1),
+      duration: Duration(milliseconds: 450 + (index * 120)),
       curve: Curves.easeOutCubic,
-      builder: (
-        context,
-        value,
-        child,
-      ) {
+      builder: (context, value, child) {
         return Opacity(
           opacity: value,
           child: Transform.translate(
-            offset: Offset(
-              0,
-              18 * (1 - value),
-            ),
+            offset: Offset(0, 18 * (1 - value)),
             child: child,
           ),
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(
-          bottom: 12,
-        ),
+        margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: const Color(0xFFFDF9F4),
-          borderRadius:
-              BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
           children: [
             ClipRRect(
-              borderRadius:
-                  BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 product.image,
                 width: 70,
                 height: 70,
                 fit: BoxFit.cover,
-                errorBuilder: (
-                  context,
-                  error,
-                  stackTrace,
-                ) {
+                errorBuilder: (context, error, stackTrace) {
                   return Container(
                     width: 70,
                     height: 70,
                     color: _lightBrown,
-                    child: const Icon(
-                      Icons.image_outlined,
-                      color: _brown,
-                    ),
+                    child: const Icon(Icons.image_outlined, color: _brown),
                   );
                 },
               ),
@@ -706,14 +571,12 @@ class _CartPageState extends State<CartPage>
 
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name,
                     maxLines: 2,
-                    overflow:
-                        TextOverflow.ellipsis,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -739,10 +602,7 @@ class _CartPageState extends State<CartPage>
               onPressed: () {
                 _removeProduct(index);
               },
-              icon: const Icon(
-                Icons.delete_outline,
-                size: 20,
-              ),
+              icon: const Icon(Icons.delete_outline, size: 20),
               color: const Color(0xFF8C7C73),
             ),
           ],
@@ -763,31 +623,17 @@ class _CartPageState extends State<CartPage>
           child: Padding(
             padding: const EdgeInsets.all(32),
             child: TweenAnimationBuilder<double>(
-              tween: Tween(
-                begin: 0,
-                end: 1,
-              ),
-              duration: const Duration(
-                milliseconds: 700,
-              ),
+              tween: Tween(begin: 0, end: 1),
+              duration: const Duration(milliseconds: 700),
               curve: Curves.easeOutBack,
-              builder: (
-                context,
-                value,
-                child,
-              ) {
-                return Transform.scale(
-                  scale: value,
-                  child: child,
-                );
+              builder: (context, value, child) {
+                return Transform.scale(scale: value, child: child);
               },
               child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.all(23),
+                    padding: const EdgeInsets.all(23),
                     decoration: const BoxDecoration(
                       color: _lightBrown,
                       shape: BoxShape.circle,
@@ -816,11 +662,7 @@ class _CartPageState extends State<CartPage>
                   const Text(
                     'Agrega una pieza artesanal para verla aquí.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 13,
-                      height: 1.5,
-                      color: _gray,
-                    ),
+                    style: TextStyle(fontSize: 13, height: 1.5, color: _gray),
                   ),
 
                   const SizedBox(height: 25),
@@ -830,28 +672,19 @@ class _CartPageState extends State<CartPage>
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.maybePop(
-                          context,
-                        );
+                        Navigator.maybePop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _brown,
                         foregroundColor: Colors.white,
                         elevation: 0,
-                        shape:
-                            RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(
-                            10,
-                          ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       child: const Text(
                         'Volver a productos',
-                        style: TextStyle(
-                          fontWeight:
-                              FontWeight.w600,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -870,28 +703,22 @@ class _CartPageState extends State<CartPage>
 // ===========================================================
 
 class _AnimatedCartButton extends StatefulWidget {
-  const _AnimatedCartButton({
-    required this.onPressed,
-  });
+  const _AnimatedCartButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
   @override
-  State<_AnimatedCartButton> createState() =>
-      _AnimatedCartButtonState();
+  State<_AnimatedCartButton> createState() => _AnimatedCartButtonState();
 }
 
-class _AnimatedCartButtonState
-    extends State<_AnimatedCartButton> {
+class _AnimatedCartButtonState extends State<_AnimatedCartButton> {
   bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
       scale: _pressed ? 0.96 : 1.0,
-      duration: const Duration(
-        milliseconds: 120,
-      ),
+      duration: const Duration(milliseconds: 120),
       curve: Curves.easeOut,
       child: GestureDetector(
         onTapDown: (_) {
@@ -915,26 +742,20 @@ class _AnimatedCartButtonState
           width: double.infinity,
           height: 55,
           decoration: BoxDecoration(
-            // color: _brown,
-            borderRadius:
-                BorderRadius.circular(11),
+            color: const Color(0xFF5E4139),
+            borderRadius: BorderRadius.circular(11),
             boxShadow: const [
               BoxShadow(
-                color: Color(0x2262443A),
+                color: Color(0x225E4139),
                 blurRadius: 15,
                 offset: Offset(0, 7),
               ),
             ],
           ),
           child: const Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.shopping_bag_outlined,
-                size: 20,
-                color: Colors.white,
-              ),
+              Icon(Icons.shopping_bag_outlined, size: 20, color: Colors.white),
 
               SizedBox(width: 9),
 
